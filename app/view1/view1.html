@@ -1,0 +1,367 @@
+<md-toolbar>
+		<div class="md-toolbar-tools">
+			<md-button class="menu" ng-click="toggleListLeft()">
+				<md-icon>menu</md-icon>
+			</md-button>
+			<h2>
+          <span>PokeWatch</span>
+        </h2>
+			<span flex=""></span>
+			<md-button class="menu" ng-click="toggleListRight()">
+				<md-icon>person</md-icon>
+			</md-button>
+		</div>
+	</md-toolbar>
+
+
+	<ui-gmap-google-map MapTypeId='TERRAIN' class="angular-google-map-container" center='map.center' zoom='map.zoom' pan="true" options="map.options" draggable="true" refresh="true" ng-click="toggleListClose()">
+		<ui-gmap-marker idKey="1" coords="c.center" dragable="false" icon="map.mark.icon">
+		</ui-gmap-marker>
+		<ui-gmap-markers
+		    models="marks"
+		    type="'spider'"
+		    typeOptions="{markersWontMove:false, markersWontHide: false, keepSpiderfied: true, nearbyDistance: 20, circleSpiralSwitchover: 9}"
+		    coords="'coords'"
+		    icon="'options.icon'"
+		    modelsbyref="true"
+		    optimized="true"
+		    click="test"
+		    >
+    </ui-gmap-markers>
+		<ui-gmap-circle ng-repeat="c in circles track by c.id" center="c.center" stroke="c.stroke" fill="c.fill" radius="c.radius" visible="c.visible" geodesic="c.geodesic" control="c.control"></ui-gmap-circle>
+		<ui-gmap-map-control position="top-right">
+			<md-button ng-click="centerMap()" class="md-fab md-mini" aria-label="Locate">
+          <md-icon>near_me</md-icon>
+        </md-button>
+		</ui-gmap-map-control>
+		<ui-gmap-map-control position="top-left">
+			<md-button ng-click="getNear()" class="md-fab md-mini" aria-label="Locate">
+			          <md-icon>track_changes</md-icon>
+        	</md-button>
+
+		</ui-gmap-map-control>
+		
+	</ui-gmap-google-map>
+
+	
+<!-- 	<md-button ng-click="vision()">fix</md-button> -->
+
+	    <md-sidenav flex class="md-sidenav-left" md-component-id="left" md-swipe-left="toggleListLeft()" md-disable-backdrop="" md-whiteframe="4">
+
+		<md-content ng-hide="pokemon" layout="row">
+			<md-progress-circular md-mode="indeterminate" md-diameter="100"></md-progress-circular>
+		</md-content>
+
+		<md-content layout-margin="">
+			<md-card ng-repeat="(id,items) in pokemon" >
+				<md-card-title ng-click="pokeInfo(items)">
+					<md-card-title-text>
+						<span class="md-headline">{{items.Name}}</span>
+					</md-card-title-text>
+					<md-card-title-media>
+						<div class="md-media card-media" ><img ng-src="{{items.Icon}}"></div>
+					</md-card-title-media>
+				</md-card-title>
+<!-- 				<md-card-content ng-show="activePokemon = items.name">
+				<span class="md-list-item-text">{{items["Next Evolution Requirements"].Amount}} candies</span>
+				</md-card-content>
+				<md-card-actions  layout-align="left" ng-if="activePokemon = items.name">
+					<md-button ng-click="mark(items.Number)">Found</md-button>
+					<md-button ng-click="locate(items.Number)">Locate</md-button>
+				</md-card-actions> -->
+			</md-card>
+
+<!-- 				 <md-grid-list md-cols-gt-md="12" md-cols="3" md-cols-md="8" md-row-height-gt-md="1:1" md-row-height="4:3" md-gutter-gt-md="16px" md-gutter-md="8px" md-gutter="4px">
+						 <md-grid-tile ng-repeat="items in pokemon" ng-click="locate(items.$id)">
+						         <img ng-src="https://pokeapi.co/media/sprites/pokemon/{{items.$id}}.png">
+						      </md-grid-tile>
+						    </md-grid-list> -->
+
+		</md-content>
+	</md-sidenav>
+
+
+	<md-sidenav flex  class="md-sidenav-right" md-component-id="right" md-swipe-right="toggleListRight()" md-disable-backdrop="" md-whiteframe="4">
+
+<md-content layout-margin="">
+	<md-card-title>
+    <md-card-title-media>
+      <div class="md-media-sm prof-card-media" layout layout-align="center center" >
+        <img = ng-src="{{firebaseUser.photoURL}}">
+      </div>
+    </md-card-title-media>
+    <md-card-title-text>
+      <span class="md-headline">{{firebaseUser.displayName}} - {{profile.pogodata.username}}</span>
+      <md-divider></md-divider>
+      <p ng-click="profDesc()" class="md-subhead description">{{profile.desc}}<span class="tiny"> - click to edit</span></p>
+      <p class="md-subhead">Stardust: {{profile.pogodata.stardust}}</p>
+      <p class="md-subhead">Coins: {{profile.pogodata.pokecoins}}</p>
+             <p class="md-subhead">Logged: {{ profile.totalLogged }}</p>
+            <p class="md-subhead">Upvotes: {{ profile.upvotes }}</p>
+    </md-card-title-text>
+  </md-card-title>
+<!--   <md-list-item class="md-3-line">
+          <div class="md-list-item-text" layout="column">
+            <h3>Team: {{profile.team}}</h3>
+          </div>
+        </md-list-item> -->
+</md-card>
+
+
+
+<md-button class="md-raised" aria-label="Login" ng-click="login()">
+				<span ng-hide="firebaseUser.uid">Login</span><span ng-hide="!firebaseUser.uid">Logout</span>
+			</md-button>
+			<md-button ng-show="firebaseUser" class="md-raised" aria-label="Login" ng-click="vision()">
+				<span>POGO Update</span>
+			</md-button>
+
+	<md-divider></md-divider>
+	<h3>Following:</h3>
+				<md-card ng-repeat="friends" >
+				<md-card-title ng-click="viewProfile(items)">
+					<md-card-title-text>
+						<span class="md-headline">{{friends.Name}}</span>
+					</md-card-title-text>
+					<md-card-title-media>
+						<div class="md-media card-media" ><img ng-src="{{friends.photoURL}}"></div>
+					</md-card-title-media>
+				</md-card-title>
+			</md-card>
+
+</md-content>
+
+			
+		
+	</md-sidenav>
+
+<script type="text/ng-template" id="dialog2.tmpl.html"><md-dialog aria-label="Description"  ng-cloak>
+<!--   <form> -->
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Pokemon Details</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon aria-label="Close dialog">close</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+    <md-chips ng-show="pokemonDetail.mods" ng-model="pokemonDetail.mods" readonly="true"></md-chips>
+      <div class="md-dialog-content">
+        <h2>{{pokemonDetail.options.title}}<img  class="md-media" ng-src="img/forts/Pstop.png"></h2>
+
+        <img layout-align="center center" class="md-media" ng-src="{{pokemonDetail.options.icon}}">
+        <h4>Submitted by: {{pokemonDetail.madeBy}}</h4> {{date}}
+                <md-divider></md-divider>
+        <p>
+          PokeWatch User score: {{pokemonDetail.vote}}
+        </p>
+
+
+        
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button ng-click="answer('del')">
+        Delete
+      </md-button>
+      <span flex></span>
+      <md-button ng-click="answer('down')">
+       Downvote
+      </md-button>
+      <md-button ng-click="answer('up')" md-autofocus>
+        Upvote
+      </md-button>
+    </md-dialog-actions>
+<!--   </form> -->
+</md-dialog>
+</script>
+
+<script type="text/ng-template" id="dialog1.tmpl.html"><md-dialog aria-label="Description"  ng-cloak>
+  <form>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+      <img  class="md-media" ng-src="img/forts/Pstop.png">
+        <h2> - Pokemon Details</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon aria-label="Close dialog">close</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <h2>{{pokemonDetail.Number}} - {{pokemonDetail.Name}}</h2>
+
+
+        <img layout-align="center center" class="md-media-lg" ng-src="{{pokemonDetail.Icon}}">
+        <span class="md-list-item-text">{{pokemonDetail.Classification}}</span>
+
+        <h4>Type(s): {{pokemonDetail["Type I"][0]}} / {{pokemonDetail["Type II"][0]}}</h4>
+        <h4>Avg Height: {{pokemonDetail.Height}} Avg Weight: {{pokemonDetail.Weight}}</h4>
+        <h4>Max CP: {{pokemonDetail.details["Max CP"]}}</h4>
+
+        <p>
+          {{flavorText}}
+        </p>
+        <md-divider ng-show='pokemonDetail["Next Evolution Requirements"].Amount'></md-divider>
+        <h4 ng-show='pokemonDetail["Next Evolution Requirements"].Amount'>{{pokemonDetail["Next Evolution Requirements"].Amount}} {{pokemonDetail["Next Evolution Requirements"].Name}} to evolve</h4>
+        <md-divider></md-divider>
+        <h4>Fast Attacks</h4>
+        <md-list-item ng-repeat=' attacks in pokemonDetail["Fast Attack(s)"]'>
+        {{attacks}}
+        </md-list-item>
+        <md-divider></md-divider>
+        <h4>Weak against:</h4>
+        <md-list-item ng-repeat=" types in pokemonDetail.Weaknesses">
+        {{types}}
+        </md-list-item>
+
+        
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button ng-click="answer('calc')" md-autofocus>
+        IV Calc
+      </md-button>
+      <span flex></span>
+      <md-button ng-click="answer('found')">
+       Found
+      </md-button>
+      <md-button ng-click="answer('locate')">
+        Locate
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>
+</script>
+
+<script type="text/ng-template" id="dialog3.tmpl.html"><md-dialog aria-label="mods" layout="column"  ng-cloak>
+<!--   <form> -->
+<!--     <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Pokemon Details</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon aria-label="Close dialog">close</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar> -->
+
+    <md-dialog-content layout="row">
+<!--     <md-chips ng-model="pokemonDetail.mods" readonly="true"></md-chips> -->
+      <div class="md-dialog-content" layout-align="space around">
+        <h2>Modifiers</h2>
+
+<!--         <img  class="md-media" ng-src="img/forts/Pstop.png"> -->
+<!--         <h4>Submitted by: {{pokemonDetail.madeBy}}</h4> -->
+                <md-divider></md-divider>
+<!--         <p>
+          PokeWatch User score: {{pokemonDetail.vote}}
+        </p> -->
+          <md-switch ng-model="data.wild" aria-label="Switch 1">
+    Wild {{ data.wild }}         <img  class="md-media" ng-src="img/forts/Pstop.png">
+  </md-switch>
+  <md-switch ng-model="data.lured" aria-label="Switch 2">
+    Lured  {{ data.lured }} <img  class="md-media" ng-src="img/forts/PstopLured.png">
+  </md-switch>
+    <md-switch ng-model="data.incense" aria-label="Switch 3">
+    Incensed {{ data.incense }}         <img  class="md-media" ng-src="img/forts/Pstop.png">
+  </md-switch>
+      <md-switch ng-model="data.event" aria-label="Switch 4">
+    Event {{ data.event }}         <img  class="md-media" ng-src="img/forts/Gym.png">
+  </md-switch>
+
+
+  <md-input-container>
+        <label>Comment</label>
+        <textarea ng-model="data.comment" md-maxlength="150" rows="3" md-select-on-focus=""></textarea>
+   </md-input-container>
+        
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+<!--       <md-button ng-click="answer('del')">
+        Delete
+      </md-button> -->
+      <span flex></span>
+<!--       <md-button ng-click="answer('down')">
+       Downvote
+      </md-button> -->
+      <md-button ng-click="answer(data)" md-autofocus>
+        Submit
+      </md-button>
+    </md-dialog-actions>
+<!--   </form> -->
+</md-dialog>
+</script>
+
+<script type="text/ng-template" id="dialog4.tmpl.html"><md-dialog aria-label="cp" layout="column"  ng-cloak>
+<!--   <form> -->
+<!--     <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Pokemon Details</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon aria-label="Close dialog">close</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar> -->
+
+    <md-dialog-content layout="row">
+<!--     <md-chips ng-model="pokemonDetail.mods" readonly="true"></md-chips> -->
+      <div class="md-dialog-content" layout-align="space around">
+        <h3>IV Calc</h3>
+
+<!--         <img  class="md-media" ng-src="img/forts/Pstop.png"> -->
+<!--         <h4>Submitted by: {{pokemonDetail.madeBy}}</h4> -->
+<!--                 <md-divider></md-divider> -->
+<!--         <p>
+          PokeWatch User score: {{pokemonDetail.vote}}
+        </p> -->
+     <md-input-container>
+        <label>Candy to power</label>
+        <md-select ng-model="candy" required="">
+          <md-option ng-repeat="stardust in dust" value="{{stardust.dust}}">{{stardust.dust}}</md-option>
+        </md-select>
+   </md-input-container>
+
+  <md-input-container>
+        <label>Pokemon Cp</label>
+        <input ng-model="incp" required="">
+   </md-input-container>
+   <md-radio-group ng-model="lvlup">
+      <md-radio-button value="0" class="md-primary">0 power ups</md-radio-button>
+      <md-radio-button value=".5" class="md-primary">1 power up</md-radio-button>
+      <md-radio-button value="1" class="md-primary">2 power ups</md-radio-button>
+      <md-radio-button value="1.5" class="md-primary">3 power ups</md-radio-button>
+    </md-radio-group>
+
+
+        <h2 >%{{outcp}} IV</h2>
+
+        
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+<!--       <md-button ng-click="answer('del')">
+        Delete
+      </md-button> -->
+      <span flex></span>
+<!--       <md-button ng-click="answer('down')">
+       Downvote
+      </md-button> -->
+      <md-button ng-click="calc()" md-autofocus>
+        Calc
+      </md-button>
+    </md-dialog-actions>
+<!--   </form> -->
+</md-dialog>
+</script>

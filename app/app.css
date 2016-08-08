@@ -1,0 +1,22 @@
+/* .carddemoBasicUsage .card-media {
+  background-color: #999999; } */
+
+html, body { height: 100vh; width: 100vw;}
+
+.angular-google-map-container {
+  height: 90vh;
+}
+
+
+ .prof-card-media {
+  width: 60px;
+  height: 60px;
+  color: rgba(255, 255, 255, 0.87); 
+  margin-right: 16px;
+  border-radius: 50%;
+  overflow: hidden; 
+}
+
+.tiny{
+	font-size: 9px;
+}
