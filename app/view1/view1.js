@@ -419,6 +419,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngMaterial', 'ngMessages', 'ngGeoloca
 
 			var tempref = firebase.database().ref().child('/pokemon/' + id + '/');
 			var tempinsert = $firebaseArray(tempref);
+			var username = $scope.profile.pogodata.username;
 			tempinsert.$loaded().then(function() {
 				$scope.tempinsert = tempinsert;
 				console.log($scope.tempinsert.length);
@@ -426,7 +427,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngMaterial', 'ngMessages', 'ngGeoloca
 				if($scope.profile.pogodata.username == undefined) {
 					var username = $scope.firebaseUser.displayName;
 				}else {
-					var username = $scope.profile.pogodata.username;
+					var username = "Anon";
 				}
 
 

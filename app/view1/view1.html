@@ -53,7 +53,7 @@
 		</md-content>
 
 		<md-content layout-margin="">
-			<md-card ng-repeat="(id,items) in pokemon" >
+			<!--<md-card ng-repeat="(id,items) in pokemon" >
 				<md-card-title ng-click="pokeInfo(items)">
 					<md-card-title-text>
 						<span class="md-headline">{{items.Name}}</span>
@@ -62,20 +62,20 @@
 						<div class="md-media card-media" ><img ng-src="{{items.Icon}}"></div>
 					</md-card-title-media>
 				</md-card-title>
-<!-- 				<md-card-content ng-show="activePokemon = items.name">
+ 				<md-card-content ng-show="activePokemon = items.name">
 				<span class="md-list-item-text">{{items["Next Evolution Requirements"].Amount}} candies</span>
 				</md-card-content>
 				<md-card-actions  layout-align="left" ng-if="activePokemon = items.name">
 					<md-button ng-click="mark(items.Number)">Found</md-button>
 					<md-button ng-click="locate(items.Number)">Locate</md-button>
-				</md-card-actions> -->
-			</md-card>
+				</md-card-actions> 
+			</md-card>-->
 
-<!-- 				 <md-grid-list md-cols-gt-md="12" md-cols="3" md-cols-md="8" md-row-height-gt-md="1:1" md-row-height="4:3" md-gutter-gt-md="16px" md-gutter-md="8px" md-gutter="4px">
-						 <md-grid-tile ng-repeat="items in pokemon" ng-click="locate(items.$id)">
-						         <img ng-src="https://pokeapi.co/media/sprites/pokemon/{{items.$id}}.png">
+ 				 <md-grid-list md-cols-gt-xs="15" md-cols="8" md-cols-xs="3" md-row-height-gt-xs="1:1" md-row-height="2:2.5" md-gutter-gt-md="16px" md-gutter-md="8px" md-gutter="8px">
+						 <md-grid-tile ng-repeat="(id,items) in pokemon" ng-click="pokeInfo(items)">
+						         <img ng-src={{items.Icon}}>
 						      </md-grid-tile>
-						    </md-grid-list> -->
+						    </md-grid-list> 
 
 		</md-content>
 	</md-sidenav>
@@ -118,7 +118,7 @@
 
 	<md-divider></md-divider>
 	<h3>Following:</h3>
-				<md-card ng-repeat="friends" >
+				<!--<md-card ng-repeat="friends" >
 				<md-card-title ng-click="viewProfile(items)">
 					<md-card-title-text>
 						<span class="md-headline">{{friends.Name}}</span>
@@ -127,7 +127,7 @@
 						<div class="md-media card-media" ><img ng-src="{{friends.photoURL}}"></div>
 					</md-card-title-media>
 				</md-card-title>
-			</md-card>
+			</md-card>-->
 
 </md-content>
 
@@ -265,24 +265,24 @@
           PokeWatch User score: {{pokemonDetail.vote}}
         </p> -->
           <md-switch ng-model="data.wild" aria-label="Switch 1">
-    Wild {{ data.wild }}         <img  class="md-media" ng-src="img/forts/Pstop.png">
+    Wild<img  class="md-media" ng-src="img/forts/Pstop.png">
   </md-switch>
   <md-switch ng-model="data.lured" aria-label="Switch 2">
-    Lured  {{ data.lured }} <img  class="md-media" ng-src="img/forts/PstopLured.png">
+    Lured<img  class="md-media" ng-src="img/forts/PstopLured.png">
   </md-switch>
     <md-switch ng-model="data.incense" aria-label="Switch 3">
-    Incensed {{ data.incense }}         <img  class="md-media" ng-src="img/forts/Pstop.png">
+    Incensed<img  class="md-media" ng-src="img/forts/Pstop.png">
   </md-switch>
       <md-switch ng-model="data.event" aria-label="Switch 4">
-    Event {{ data.event }}         <img  class="md-media" ng-src="img/forts/Gym.png">
+    Event<img  class="md-media" ng-src="img/forts/Gym.png">
   </md-switch>
 
 
-  <md-input-container>
+  <!--<md-input-container>
         <label>Comment</label>
         <textarea ng-model="data.comment" md-maxlength="150" rows="3" md-select-on-focus=""></textarea>
    </md-input-container>
-        
+        -->
       </div>
     </md-dialog-content>
 
@@ -326,7 +326,7 @@
           PokeWatch User score: {{pokemonDetail.vote}}
         </p> -->
      <md-input-container>
-        <label>Candy to power</label>
+        <label>Dust to power</label>
         <md-select ng-model="candy" required="">
           <md-option ng-repeat="stardust in dust" value="{{stardust.dust}}">{{stardust.dust}}</md-option>
         </md-select>
