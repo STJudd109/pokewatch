@@ -426,6 +426,8 @@ angular.module('myApp.view1', ['ngRoute', 'ngMaterial', 'ngMessages', 'ngGeoloca
 
 				if($scope.profile.pogodata.username == undefined) {
 					var username = $scope.firebaseUser.displayName;
+				}else if( $scope.profile.pogodata.username != undefined) {
+					var username = $scope.profile.pogodata.username
 				}else {
 					var username = "Anon";
 				}
@@ -449,7 +451,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngMaterial', 'ngMessages', 'ngGeoloca
 					vote: 0,
 					createdAt: new Date().getTime(),
 					mods: mods,
-					initialcom: com
+					initialcom: "no comment"
 				}).then(function() {
 					$scope.showSimpleToast("a " + $scope.pokemon[id - 1].Name + ' has been inserted!');
 					$scope.profile.totalLogged++;
